@@ -14,7 +14,7 @@ end
 
 patterns << current_pattern
 
-DIFF=0
+DIFF=1
 
 def find_horizontal_mirror(pattern)
   1.upto(pattern.count-1) do |i|
@@ -25,9 +25,9 @@ end
 
 def check_horizontal_mirror(pattern, i)
   steps = [i, pattern.count-i].min
-  diffs = 1000
+  diffs = 0
   steps.times do |s|
-    diffs = compare(pattern[(i-1)-s].chars, pattern[i+s].chars)
+    diffs += compare(pattern[(i-1)-s].chars, pattern[i+s].chars)
   end
   diffs==DIFF
 end
@@ -41,23 +41,23 @@ end
 
 def check_vertical_mirror(pattern, i)
   steps = [i, pattern.first.length-i].min
-  diffs = 1000
+  diffs = 0
   steps.times do |s|
-    diffs = compare(pattern.map {|row| row[i-1-s]}, pattern.map{|row| row[i+s]})
+    diffs += compare(pattern.map {|row| row[i-1-s]}, pattern.map{|row| row[i+s]})
   end
   diffs==DIFF
 end
 
 def compare(arr1, arr2)
-  # return false if arr1.count != arr2.count
-  #
-  # diffs = 0
-  # (0..arr1.count-1).each do |i|
-  #   diffs += 1 unless arr1[i]==arr2[i]
-  # end
-  #
-  # diffs
-  arr1 == arr2 ? 0 : 100_000_000
+  return false if arr1.count != arr2.count
+
+  diffs = 0
+  (0..arr1.count-1).each do |i|
+    diffs += 1 unless arr1[i]==arr2[i]
+  end
+
+  diffs
+
 end
 
 sum = 0
